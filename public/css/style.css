@@ -1,0 +1,103 @@
+.sidebar {
+position: fixed;
+top: 0;
+bottom: 0;
+left: 0;
+z-index: 100; /* Behind the navbar */
+padding: 48px 0 0; /* Height of navbar */
+box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+}
+
+
+.sidebar-sticky {
+position: relative;
+top: 0;
+height: calc(100vh - 48px);
+padding-top: .5rem;
+overflow-x: hidden;
+overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+}
+
+.sidebar .nav-link {
+font-weight: 500;
+color: #333;
+}
+
+.sidebar .nav-link .feather {
+margin-right: 4px;
+color: #727272;
+}
+
+.sidebar .nav-link.active {
+color: #2470dc;
+}
+
+.sidebar .nav-link:hover .feather,
+.sidebar .nav-link.active .feather {
+color: inherit;
+}
+
+.sidebar-heading {
+font-size: .75rem;
+text-transform: uppercase;
+}
+
+.feather {
+width: 16px;
+height: 16px;
+vertical-align: text-bottom;
+}
+
+/*
+* Navbar
+*/
+
+.navbar-brand {
+padding-top: .75rem;
+padding-bottom: .75rem;
+font-size: 1rem;
+background-color: rgba(0, 0, 0, .25);
+box-shadow: inset -1px 0 0 rgba(0, 0, 0, .25);
+}
+
+.navbar .navbar-toggler {
+top: .25rem;
+right: 1rem;
+}
+
+
+
+.form-signin {
+width: 100%;
+max-width: 330px;
+padding: 15px;
+margin: auto;
+}
+
+.form-signin .checkbox {
+font-weight: 400;
+}
+
+.form-signin .form-floating:focus-within {
+z-index: 2;
+}
+
+.form-signin input[type="email"] {
+margin-bottom: -1px;
+border-bottom-right-radius: 0;
+border-bottom-left-radius: 0;
+}
+
+.form-signin input[type="password"] {
+margin-bottom: 10px;
+border-top-left-radius: 0;
+border-top-right-radius: 0;
+}
+
+.table-smaller {
+    font-size: 0.8rem;
+}
+
+.smaller-font {
+    font-size: 0.85rem;
+}
