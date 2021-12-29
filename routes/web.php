@@ -35,15 +35,16 @@ Route::group(['middleware' => 'admin'], function () {
     // ! Process Route.
     Route::resource('suratmasuk', SuratMasukController::class);
     Route::get('/suratmasuk/{nosurat}/disposisi', [SuratMasukController::class, 'disposisi']);
+    Route::get('/export/suratmasuk', [SuratMasukController::class, 'export']);
     Route::post('/suratmasuk/disposisi', [SuratMasukController::class, 'tambahdisposisi']);
 });
 
 // Public Routes.
 Route::group(['middleware' => 'auth'], function () {
-
     // ! Status.
     Route::resource('statusdisposisi', StatusDisposisiController::class);
     Route::get('/status/{nosurat}/disposisi', [StatusDisposisiController::class, 'status']);
+    Route::get('/export/status', [StatusDisposisiController::class, 'export']);
 
     // ! Terima.
     Route::resource('terimadisposisi', TerimaDisposisiController::class);
@@ -54,7 +55,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/ganti-pass/{id}', [UserController::class, 'viewgantipass']);
     Route::put('/ganti-pass/{id}', [UserController::class, 'gantipass']);
 });
-
 
 
 // ! login & logout

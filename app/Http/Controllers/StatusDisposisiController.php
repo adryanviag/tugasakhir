@@ -2,19 +2,45 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Unit;
+use App\Exports\StatusDisposisiExport;
 use App\Models\BeriDisposisi;
 use App\Models\SuratMasuk;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
+use Maatwebsite\Excel\Facades\Excel;
 
 class StatusDisposisiController extends Controller
 {
     public function index()
     {
+        $data = [];
+        $unit = auth()->user()->unit->Kode;
+
+        if (request()->from && request()->to) {
+            $data = DB::table('tbberidisposisi')
+                ->select('tbberidisposisi.NoAgendaSurat', 'tbberidisposisi.TglDisposisi', 'tbunit.Desk as Penerima', 'tbisidisposisi.Isi', 'tbmasuk.IsiRingkas as Prihal')
+                ->join('tbunit', 'tbberidisposisi.Penerima', '=', 'tbunit.Kode')
+                ->join('tbisidisposisi', 'tbberidisposisi.Isi', '=', 'tbisidisposisi.Kode')
+                ->join('tbmasuk', 'tbberidisposisi.NoAgendaSurat', '=', 'tbmasuk.NoAgenda')
+                ->where('tbberidisposisi.KdUnit', $unit)
+                ->whereBetween('TglDisposisi', [request()->from, request()->to])
+                ->get();
+        } else {
+            $data = DB::table('tbberidisposisi')
+                ->select('tbberidisposisi.*', 'tbunit.Desk as Penerima', 'tbisidisposisi.Isi', 'tbmasuk.IsiRingkas as Prihal')
+                ->join('tbunit', 'tbberidisposisi.Penerima', '=', 'tbunit.Kode')
+                ->join('tbisidisposisi', 'tbberidisposisi.Isi', '=', 'tbisidisposisi.Kode')
+                ->join('tbmasuk', 'tbberidisposisi.NoAgendaSurat', '=', 'tbmasuk.NoAgenda')
+                ->where('tbberidisposisi.KdUnit', $unit)
+                ->get();
+        }
+
+        // return dd(date($data[0]->TglDisposisi));
+
         return view('proses.statusdisposisi.index', [
             'title' => 'Status Disposisi',
-            'data' => Unit::find(auth()->user()->unit->Kode)->BeriDisposisi,
+            'data' => $data,
         ]);
     }
 
@@ -151,5 +177,10 @@ class StatusDisposisiController extends Controller
             'tgl_surat' => $formatted_tglsurat,
             'tgl_selesai' => $formatted_tglselesai
         ]);
+    }
+
+    public function export()
+    {
+        return Excel::download(new StatusDisposisiExport, 'status_disposisi.csv');
     }
 }

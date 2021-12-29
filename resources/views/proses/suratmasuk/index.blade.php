@@ -28,6 +28,51 @@
                             </div>
                         @endif
                     @else
+                        <div id="hideFilterBtn" class="btn btn-warning mb-2">Filter</div>
+                        <div style="display: @if (request()->from && request()->to) block @endif none" id="menuFilter" class="border p-2 m-2">
+                            <form action="/suratmasuk" method="GET">
+                                {{-- <div class="row">
+                                    <div class="col-12 col-md-6">
+                                        <label for="filterInstansi">Instansi</label>
+                                        <select class="form-control" name="filterInstansi" id="instansi">
+                                            <option selected disabled>SELECT</option>
+                                            @foreach ($data_instansi as $instansi)
+                                                <option @if (request()->filterInstansi == $instansi->instansi) selected @endif value="{{ $instansi->instansi }}">
+                                                    {{ $instansi->instansi }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <label for="filterNoAgenda">NoAgenda</label>
+                                        <input @if (request()->filterNoAgenda) value="{{ request()->filterNoAgenda }}" @endif name="filterNoAgenda" type="text"
+                                            class="form-control">
+                                    </div>
+                                </div> --}}
+                                <div class="row">
+                                    <div class="col-12 col-md-6">
+                                        <label for="from">Dari</label>
+                                        <input required class="form-control" type="date" name="from" id="from">
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <label for="to">Ke</label>
+                                        <input required class="form-control" type="date" name="to" id="to">
+                                    </div>
+                                </div>
+                                <input class="btn btn-primary mt-2" type="submit" value="FILTER">
+                                <a href="/suratmasuk" class="btn btn-secondary mt-2">CLEAR</a>
+                            </form>
+                            @if (request()->from || request()->to)
+                                <form action="/export/suratmasuk" method="GET">
+                                    <input hidden type="date" name="from" id="from" value="{{ request()->from }}">
+                                    <input hidden type="date" name="to" id="to" value="{{ request()->to }}">
+                                    <input type="submit" value="  EXPORT TO CSV  " class="btn btn-success mt-2">
+                                </form>
+                            @else
+                                <form action="/export/suratmasuk" method="GET">
+                                    <input type="submit" value="  EXPORT TO CSV  " class="btn btn-success mt-2">
+                                </form>
+                            @endif
+                        </div>
                         <div class="card">
                             @if (session()->has('success'))
                                 <div class="alert alert-success alert-dismissible">
@@ -73,7 +118,7 @@
                                                     {{ $d->StatusSurat === '04' ? 'Dipinjam' : '' }}
                                                     {{ $d->StatusSurat === '05' ? 'Hilang' : '' }}
                                                 </td>
-                                                <td>{{ $d->location->Desk }}</td>
+                                                <td>{{ $d->Desk }}</td>
                                                 <td><a href="/storage/{{ $d->LokasiMedia }}">FILE</a></td>
                                                 <td>{{ $d->TglSurat }}</td>
                                                 <td>{{ $d->NoSurat }}</td>
@@ -109,4 +154,16 @@
             </div>
         </div>
     </section>
+    <script>
+        var hideFilterBtn = document.getElementById('hideFilterBtn');
+
+        hideFilterBtn.onclick = function() {
+            var menuFilter = document.getElementById('menuFilter');
+            if (menuFilter.style.display !== 'none') {
+                menuFilter.style.display = 'none';
+            } else {
+                menuFilter.style.display = 'block';
+            }
+        }
+    </script>
 @endsection

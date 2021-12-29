@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\SuratMasukExport;
 use App\Http\Requests\CreateSuratRequest;
 use App\Http\Requests\EditSuratRequest;
 use Illuminate\Http\Request;
+
+use Maatwebsite\Excel\Facades\Excel;
 
 use App\Models\Location;
 use App\Models\Classification;
@@ -14,15 +17,32 @@ use App\Models\SuratMasuk;
 use App\Models\Unit;
 use App\Models\BeriDisposisi;
 use App\Models\TerimaDisposisi;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 
 class SuratMasukController extends Controller
 {
-    public function index(Unit $unit)
+    public function index()
     {
+        $data = [];
+
+        $unit = auth()->user()->unit->Kode;
+        if (request()->from && request()->to) {
+            // $q = "SELECT m.*, l.Desk FROM tbmasuk as m LEFT JOIN tblokasi as l ON m.Lokasi = l.KdLokasi WHERE m.KdUnit = '" . $unit . "' AND m.Pengirim = '" . request()->filterInstansi . "' OR m.NoAgenda = '" . request()->filterNoAgenda . "'";
+            // $data = DB::select($q);
+            $q = "SELECT tbmasuk.*, tblokasi.Desk FROM tbmasuk LEFT JOIN tblokasi ON tbmasuk.Lokasi = tblokasi.KdLokasi WHERE tbmasuk.KdUnit = '" . $unit . "' AND TglDiterima BETWEEN '" . request()->from . "' AND '" . request()->to . "'";
+            $data = DB::select($q);
+        } else {
+            $q = "SELECT m.*, l.Desk FROM tbmasuk as m LEFT JOIN tblokasi as l ON m.Lokasi = l.KdLokasi WHERE m.KdUnit = '" . $unit . "'";
+            $data = DB::select($q);
+        }
+
+
+        // return dd($data, request()->from, request()->to);
         return view('proses.suratmasuk.index', [
             'title' => 'Surat Masuk',
-            'data' => $unit::find(auth()->user()->unit->Kode)->SuratMasuk
+            'data' => $data,
+            'data_instansi' => Instance::all()
         ]);
     }
 
@@ -138,5 +158,10 @@ class SuratMasukController extends Controller
         BeriDisposisi::create($validatedDataBeri);
         TerimaDisposisi::create($validatedDataTerima);
         return redirect('/statusdisposisi')->with('success', 'Berhasil didisposisikan!');
+    }
+
+    public function export()
+    {
+        return Excel::download(new SuratMasukExport, 'suratmasuk.xlsx');
     }
 }
