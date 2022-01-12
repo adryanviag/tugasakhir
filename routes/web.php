@@ -37,6 +37,7 @@ Route::group(['middleware' => 'admin'], function () {
     Route::get('/suratmasuk/{nosurat}/disposisi', [SuratMasukController::class, 'disposisi']);
     Route::get('/export/suratmasuk', [SuratMasukController::class, 'export']);
     Route::post('/suratmasuk/disposisi', [SuratMasukController::class, 'tambahdisposisi']);
+    Route::post('/suratmasuk/search', [SuratMasukController::class, 'searchSurat'])->name('suratmasuk.search');
 });
 
 // Public Routes.

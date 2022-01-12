@@ -35,6 +35,6 @@ class StatusDisposisiExport implements FromCollection
                 ->where('tbberidisposisi.KdUnit', $unit)
                 ->get();
         }
-        return dd($data);
+        return $data;
     }
 }

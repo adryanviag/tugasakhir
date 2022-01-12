@@ -109,18 +109,18 @@
                                     <div class="row">
                                         <div class="col-12 col-md-6">
                                             <label for="Status" class="form-label">Jenis Tindakan</label>
-                                            <select class="form-control-border custom-select mb-2" name="Status"
-                                                aria-label="Default select example">
+                                            <select id="sm_select" class="form-control-border custom-select mb-2"
+                                                name="Status" aria-label="Default select example">
                                                 <option value="Belum Dikerjakan">Belum Dikerjakan</option>
                                                 <option value="Berlangsung">Berlangsung</option>
-                                                <option value="Didisposisikan">Didisposisikan</option>
+                                                <option selected value="Didisposisikan">Didisposisikan</option>
                                                 <option value="Selesai">Selesai</option>
                                             </select>
                                         </div>
                                         <div class="col-12 col-md-6">
                                             <label for="Penerima" class="form-label">Kepada</label>
-                                            <select class="form-control-border custom-select mb-2" name="Penerima"
-                                                aria-label="Default select example">
+                                            <select id="Penerima" class="form-control-border custom-select mb-2"
+                                                name="Penerima" aria-label="Default select example">
                                                 @foreach ($data_unit as $data)
                                                     <option value="{{ $data->Kode }}">{{ $data->Desk }}</option>
                                                 @endforeach
@@ -128,8 +128,8 @@
                                         </div>
                                         <div class="col-12 col-md-6">
                                             <label for="Isi" class="form-label">Isi Disposisi</label>
-                                            <select class="form-control-border custom-select mb-2" name="Isi"
-                                                aria-label="Default select example">
+                                            <select id="IsiDisposisi" class="form-control-border custom-select mb-2"
+                                                name="Isi" aria-label="Default select example">
                                                 @foreach ($data_isi as $data)
                                                     <option value="{{ $data->Kode }}">{{ $data->Isi }}</option>
                                                 @endforeach
@@ -137,8 +137,8 @@
                                         </div>
                                         <div class="col-12 col-md-6">
                                             <label class="form-label" for="Catatan">Catatan</label>
-                                            <input name="Catatan" type="text" class="form-control mb-2" id="Catatan"
-                                                placeholder="Catatan">
+                                            <input id="Catatan" name="Catatan" type="text" class="form-control mb-2"
+                                                id="Catatan" placeholder="Catatan">
                                         </div>
                                     </div>
                                 </div>

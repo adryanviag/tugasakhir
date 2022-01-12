@@ -46,19 +46,18 @@
                                         <label for="SifatSurat" class="form-label">Sifat Surat</label>
                                         <select class="custom-select form-control-border" name="SifatSurat"
                                             aria-label="Default select example">
-                                            <option value="01">Biasa</option>
-                                            <option value="02">Tidak Biasa</option>
+                                            <option value="Biasa">Biasa</option>
                                         </select>
                                     </div>
                                     <div class="col-6">
                                         <label for="StatusSurat" class="form-label">Status Surat</label>
                                         <select class="form-control-border custom-select" name="StatusSurat"
                                             aria-label="Default select example">
-                                            <option value="01">Disimpan</option>
-                                            <option value="02">Diproses</option>
-                                            <option value="03">Diteruskan</option>
-                                            <option value="04">Dipinjam</option>
-                                            <option value="05">Hilang</option>
+                                            <option value="Disimpan">Disimpan</option>
+                                            <option value="Diproses">Diproses</option>
+                                            <option value="Diteruskan">Diteruskan</option>
+                                            <option value="Dipinjam">Dipinjam</option>
+                                            <option value="Hilang">Hilang</option>
                                         </select>
                                     </div>
                                     <div class="col-12 mt-2 col-md-6">
@@ -66,7 +65,7 @@
                                         <select class="custom-select form-control-border" name="Pengirim"
                                             aria-label="Default select example">
                                             @foreach ($data_instansi as $data)
-                                                <option value="{{ $data->instansi }}">{{ $data->instansi }}</option>
+                                                <option value="{{ $data->kode }}">{{ $data->instansi }}</option>
                                             @endforeach
                                         </select>
                                     </div>

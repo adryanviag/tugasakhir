@@ -49,11 +49,7 @@
                                             <tr>
                                                 <td>{{ $loop->iteration }}</td>
                                                 <td>{{ $d->TglDiterima->format('D, d M Y') }}</td>
-                                                <td>
-                                                    @if ($d->Pengirim === 'UN01') Dekan @endif
-                                                    @if ($d->Pengirim === 'UN02') WD 1 @endif
-                                                    @if ($d->Pengirim === 'UN03') WD 2 @endif
-                                                </td>
+                                                <td>{{ $d->Pengirim }}</td>
                                                 <td>{{ $d->NoAgendaSurat }}</td>
                                                 <td>{{ $d->SuratMasuk->IsiRingkas }}</td>
                                                 <td>{{ $d->Status }}</td>

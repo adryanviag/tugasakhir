@@ -19,7 +19,7 @@
                         <div class="card card-success">
                             <div class="card-header">
                                 <h4 class="card-title w-100">
-                                    <a class="d-block w-100" data-toggle="collapse" href="#collapseOne">
+                                    <a class="d-block w-100">
                                         Info Surat
                                     </a>
                                 </h4>
@@ -43,7 +43,9 @@
                                         <dd class="col-sm-8"><a href="/storage/{{ $data_sm->LokasiMedia }}"><span
                                                     class="badge rounded-pill bg-success">See File</span></a></dd>
                                         <dt class="col-sm-4">Sifat Surat</dt>
-                                        <dd class="col-sm-8">@if ($data_sm->SifatSurat === '01') Biasa
+                                        <dd class="col-sm-8">
+                                            @if ($data_sm->SifatSurat === '01')
+                                                Biasa
                                             @else Tidak Biasa
                                             @endif
                                         </dd>
@@ -56,12 +58,12 @@
                         <div class="card card-success">
                             <div class="card-header">
                                 <h4 class="card-title w-100">
-                                    <a class="d-block w-100" data-toggle="collapse" href="#collapseThree">
+                                    <a class="d-block w-100">
                                         Tracking Disposisi Surat
                                     </a>
                                 </h4>
                             </div>
-                            <div id="collapseThree" class="collapse" data-parent="#accordion">
+                            <div id="collapseThree" data-parent="#accordion">
                                 <div class="card-body table-responsive">
                                     <table class="table table-head-fixed text-nowrap">
                                         <thead>
@@ -78,20 +80,9 @@
                                             @foreach ($data_disposisi as $data)
                                                 <tr>
                                                     <td>{{ $data['TglDisposisi'] }}</td>
-                                                    <td>
-                                                        @if ($data['Dari'] === 'UN01') Dekan @endif
-                                                        @if ($data['Dari'] === 'UN02') WD 1 @endif
-                                                        @if ($data['Dari'] === 'UN03') WD 2 @endif
-                                                    </td>
-                                                    <td>
-                                                        @if ($data['Isi'] === 'KD01') Beri Disposisi @endif
-                                                        @if ($data['Isi'] === 'KD02') Terima Disposisi @endif
-                                                    </td>
-                                                    <td>
-                                                        @if ($data['Kepada'] === 'UN01') Dekan @endif
-                                                        @if ($data['Kepada'] === 'UN02') WD 1 @endif
-                                                        @if ($data['Kepada'] === 'UN03') WD 2 @endif
-                                                    </td>
+                                                    <td>{{ $data['Dari'] }}</td>
+                                                    <td>{{ $data['IsiDisposisi'] }}</td>
+                                                    <td>{{ $data['Kepada'] }}</td>
                                                     <td>{{ $data['Status'] }}</td>
                                                     <td>@if ($data['TglStatus'] == null) - @else {{ $data['TglStatus'] }} @endif</td>
                                                 </tr>

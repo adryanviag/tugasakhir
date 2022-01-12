@@ -15,34 +15,33 @@ use App\Models\Instance;
 use App\Models\IsiDisposisi;
 use App\Models\SuratMasuk;
 use App\Models\Unit;
-use App\Models\BeriDisposisi;
-use App\Models\TerimaDisposisi;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 
 class SuratMasukController extends Controller
 {
+    protected $suratmasuk;
+
+    public function __construct()
+    {
+        $this->suratmasuk = new SuratMasuk();
+    }
+
     public function index()
     {
-        $data = [];
+        $data = $this->suratmasuk->getSuratMasuk(request()->from, request()->to);
 
-        $unit = auth()->user()->unit->Kode;
-        if (request()->from && request()->to) {
-            // $q = "SELECT m.*, l.Desk FROM tbmasuk as m LEFT JOIN tblokasi as l ON m.Lokasi = l.KdLokasi WHERE m.KdUnit = '" . $unit . "' AND m.Pengirim = '" . request()->filterInstansi . "' OR m.NoAgenda = '" . request()->filterNoAgenda . "'";
-            // $data = DB::select($q);
-            $q = "SELECT tbmasuk.*, tblokasi.Desk FROM tbmasuk LEFT JOIN tblokasi ON tbmasuk.Lokasi = tblokasi.KdLokasi WHERE tbmasuk.KdUnit = '" . $unit . "' AND TglDiterima BETWEEN '" . request()->from . "' AND '" . request()->to . "'";
-            $data = DB::select($q);
-        } else {
-            $q = "SELECT m.*, l.Desk FROM tbmasuk as m LEFT JOIN tblokasi as l ON m.Lokasi = l.KdLokasi WHERE m.KdUnit = '" . $unit . "'";
-            $data = DB::select($q);
-        }
-
-
-        // return dd($data, request()->from, request()->to);
         return view('proses.suratmasuk.index', [
             'title' => 'Surat Masuk',
             'data' => $data,
-            'data_instansi' => Instance::all()
+        ]);
+    }
+
+    public function searchSurat(Request $request)
+    {
+        $data = $this->suratmasuk->searchSuratMasuk($request->keyword);
+
+        return response()->json([
+            'data' => $data
         ]);
     }
 
@@ -58,14 +57,7 @@ class SuratMasukController extends Controller
 
     public function store(CreateSuratRequest $request)
     {
-        $validatedData = $request->validated();
-        $validatedData['LokasiMedia'] = $request->file('LokasiMedia')->storeAs(
-            'docs/suratmasuk',
-            time() . '_' . $request->NoSurat . '.' . $request->LokasiMedia->extension()
-        );
-        $validatedData['KdUnit'] = auth()->user()->unit['Kode'];
-
-        SuratMasuk::create($validatedData);
+        $this->suratmasuk->tambahSuratMasuk($request);
 
         return redirect('/suratmasuk')->with('success', 'Surat Masuk dengan nomor agenda ' . $request->NoAgenda . ' berhasil ditambah!');
     }
@@ -88,17 +80,7 @@ class SuratMasukController extends Controller
 
     public function update(EditSuratRequest $request, $id)
     {
-        $validatedData = $request->validated();
-        if ($request->file('LokasiMedia')) {
-            $validatedData['LokasiMedia'] = $request->file('LokasiMedia')->storeAs(
-                'docs/suratmasuk',
-                time() . '_' . $request->NoSurat . '.' . $request->LokasiMedia->extension()
-            );
-        }
-
-        $validatedData['KdUnit'] = auth()->user()->unit['Kode'];
-
-        SuratMasuk::where('NoAgenda', $id)->update($validatedData);
+        $this->suratmasuk->updateSuratMasuk($request, $id);
 
         return redirect('/suratmasuk')->with('success', 'Surat Masuk dengan nomor agenda ' . $request->NoAgenda . ' berhasil diubah!');
     }
@@ -132,31 +114,8 @@ class SuratMasukController extends Controller
             return Redirect::back()->withErrors(['msg' => 'Tidak bisa disposisi ke diri sendiri.']);
         }
 
-        $validatedDataBeri = $request->validate([
-            'TglDisposisi' => 'required',
-            'NoAgendaSurat' => 'required',
-            'Penerima' => 'required',
-            'Isi' => 'required',
-            'Catatan' => 'nullable'
-        ]);
+        $this->suratmasuk->tambahDisposisi($request);
 
-        $validatedDataBeri['KdUnit'] = auth()->user()->unit['Kode'];
-        $validatedDataBeri['KdUnitSurat'] = SuratMasuk::find($request->NoAgendaSurat)->Unit->Kode;
-
-
-        $validatedDataTerima = $request->validate([
-            'NoAgendaSurat' => 'required',
-            'TglDiterima' => 'required',
-            'Pengirim' => 'required',
-            'Status' => 'required'
-        ]);
-
-        $validatedDataTerima['KdUnit'] = $request->Penerima;
-        $validatedDataTerima['KdUnitSurat'] = SuratMasuk::find($request->NoAgendaSurat)->Unit->Kode;
-        $validatedDataTerima['YgDilakukan'] = $request->Status;
-
-        BeriDisposisi::create($validatedDataBeri);
-        TerimaDisposisi::create($validatedDataTerima);
         return redirect('/statusdisposisi')->with('success', 'Berhasil didisposisikan!');
     }
 

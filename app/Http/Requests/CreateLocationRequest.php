@@ -14,7 +14,7 @@ class CreateLocationRequest extends FormRequest
     public function rules()
     {
         return [
-            'KdLokasi' => 'required|unique:tblokasi|max:15',
+            'KdLokasi' => 'required|max:15',
             'KdUnit' => 'required',
             'Desk' => 'required|max:35',
         ];

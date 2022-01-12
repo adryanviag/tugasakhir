@@ -13,6 +13,21 @@
 <script src="{{ url('plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
 <!-- AdminLTE App -->
 <script src="{{ url('dist/js/adminlte.js') }}"></script>
+
+<script>
+    $("#sm_select").change(function() {
+        if ($(this).val() === 'Belum Dikerjakan' || $(this).val() === 'Berlangsung' || $(this).val() ===
+            'Selesai') {
+            $("#Penerima").attr("disabled", "disabled");
+            $("#IsiDisposisi").attr("disabled", "disabled");
+            $("#Catatan").attr("disabled", "disabled");
+        } else {
+            $("#Penerima").removeAttr("disabled");
+            $("#IsiDisposisi").removeAttr("disabled");
+            $("#Catatan").removeAttr("disabled");
+        }
+    }).trigger("change");
+</script>
 </body>
 
 </html>

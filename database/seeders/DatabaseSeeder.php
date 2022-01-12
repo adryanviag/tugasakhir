@@ -24,14 +24,14 @@ class DatabaseSeeder extends Seeder
 
         // User
         User::create([
-            'username' => 'dekan',
-            'unit_id' => 'UN01',
+            'username' => 'admin',
+            'unit_id' => 'UN00',
             'pass' => bcrypt('password'),
             'prev' => 'admin'
         ]);
 
         User::create([
-            'username' => 'op_dekan',
+            'username' => 'dekan',
             'unit_id' => 'UN01',
             'pass' => bcrypt('password'),
             'prev' => 'operator'
@@ -41,13 +41,6 @@ class DatabaseSeeder extends Seeder
             'username' => 'wd1',
             'unit_id' => 'UN02',
             'pass' => bcrypt('password'),
-            'prev' => 'admin'
-        ]);
-
-        User::create([
-            'username' => 'op_wd1',
-            'unit_id' => 'UN02',
-            'pass' => bcrypt('password'),
             'prev' => 'operator'
         ]);
 
@@ -55,12 +48,47 @@ class DatabaseSeeder extends Seeder
             'username' => 'wd2',
             'unit_id' => 'UN03',
             'pass' => bcrypt('password'),
-            'prev' => 'admin'
+            'prev' => 'operator'
         ]);
 
         User::create([
-            'username' => 'op_wd2',
-            'unit_id' => 'UN03',
+            'username' => 'kajur_mtk',
+            'unit_id' => 'UN08',
+            'pass' => bcrypt('password'),
+            'prev' => 'operator'
+        ]);
+
+        User::create([
+            'username' => 'kajur_ilkom',
+            'unit_id' => 'UN05',
+            'pass' => bcrypt('password'),
+            'prev' => 'operator'
+        ]);
+
+        User::create([
+            'username' => 'kajur_fisika',
+            'unit_id' => 'UN06',
+            'pass' => bcrypt('password'),
+            'prev' => 'operator'
+        ]);
+
+        User::create([
+            'username' => 'kajur_biologi',
+            'unit_id' => 'UN09',
+            'pass' => bcrypt('password'),
+            'prev' => 'operator'
+        ]);
+
+        User::create([
+            'username' => 'kajur_kimia',
+            'unit_id' => 'UN07',
+            'pass' => bcrypt('password'),
+            'prev' => 'operator'
+        ]);
+
+        User::create([
+            'username' => 'wd3',
+            'unit_id' => 'UN04',
             'pass' => bcrypt('password'),
             'prev' => 'operator'
         ]);
@@ -111,6 +139,12 @@ class DatabaseSeeder extends Seeder
 
         // Unit
         Unit::create([
+            'Kode' => 'UN00',
+            'Nama' => 'Admin',
+            'Desk' => 'Admin'
+        ]);
+
+        Unit::create([
             'Kode' => 'UN01',
             'Nama' => 'Dekan',
             'Desk' => 'Dekan'
@@ -126,6 +160,42 @@ class DatabaseSeeder extends Seeder
             'Kode' => 'UN03',
             'Nama' => 'WD 2',
             'Desk' => 'Wakil Dekan 2'
+        ]);
+
+        Unit::create([
+            'Kode' => 'UN04',
+            'Nama' => 'WD 3',
+            'Desk' => 'Wakil Dekan 3'
+        ]);
+
+        Unit::create([
+            'Kode' => 'UN05',
+            'Nama' => 'Kajur Ilkom',
+            'Desk' => 'Kepala Jurusan Ilmu Komputer'
+        ]);
+
+        Unit::create([
+            'Kode' => 'UN06',
+            'Nama' => 'Kajur Fisika',
+            'Desk' => 'Kepala Jurusan Fisika'
+        ]);
+
+        Unit::create([
+            'Kode' => 'UN07',
+            'Nama' => 'Kajur Kimia',
+            'Desk' => 'Kepala Jurusan Kimia'
+        ]);
+
+        Unit::create([
+            'Kode' => 'UN08',
+            'Nama' => 'Kajur MTK',
+            'Desk' => 'Kepala Jurusan Matematika'
+        ]);
+
+        Unit::create([
+            'Kode' => 'UN09',
+            'Nama' => 'Kajur Biologi',
+            'Desk' => 'Kepala Jurusan Biologi'
         ]);
 
         // Classifications
@@ -176,12 +246,12 @@ class DatabaseSeeder extends Seeder
         // ! Isi Disposisi
         IsiDisposisi::create([
             'Kode' => 'KD01',
-            'Isi' => 'Beri Disposisi'
+            'Isi' => 'Supaya Diproses'
         ]);
 
         IsiDisposisi::create([
             'Kode' => 'KD02',
-            'Isi' => 'Terima Disposisi'
+            'Isi' => 'Supaya Diproses - sesuai aturan'
         ]);
     }
 }
